@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>黑马头条</h1>
+    <p class="iconfont iconyuedu"></p>
     <router-view />
   </div>
 </template>
