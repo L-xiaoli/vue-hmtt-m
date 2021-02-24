@@ -1,6 +1,5 @@
 <template>
   <div class="layout-container">
-    组件布局
     <!-- 子路由出口 -->
     <router-view />
     <!-- / 子路由出口 -->
