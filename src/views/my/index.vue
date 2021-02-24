@@ -42,6 +42,16 @@
         </div>
       </div>
     </div>
+    <van-grid class="grid-nav" :border="false" clickable :column-num="2">
+      <van-grid-item class="grid-item">
+        <i slot="icon" class="toutiao toutiao-shoucang"> </i>
+        <span slot="text">收藏</span>
+      </van-grid-item>
+      <van-grid-item class="grid-item">
+        <i slot="icon" class="toutiao toutiao-lishi"></i>
+        <span slot="text">历史</span>
+      </van-grid-item>
+    </van-grid>
   </div>
 </template>
 
@@ -124,6 +134,23 @@ export default {
         .text {
           font-size: 23px;
         }
+      }
+    }
+  }
+  .grid-nav {
+    .grid-item {
+      height: 141px;
+      i.toutiao {
+        font-size: 45px;
+      }
+      .toutiao-shoucang {
+        color: #eb5253;
+      }
+      .toutiao-lishi {
+        color: #ff9d1d;
+      }
+      span {
+        font-size: 28px;
       }
     }
   }
