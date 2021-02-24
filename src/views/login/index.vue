@@ -4,9 +4,9 @@
     <van-nav-bar class="page-nav-bar" title="登录" />
     <!-- /导航栏 -->
     <!-- 登录表单 -->
-    <van-form @submit="onSubmit">
+    <van-form ref="loginForm" @submit="onSubmit">
       <van-field
-        name="手机号"
+        name="mobile"
         v-model="user.mobile"
         placeholder="请输入手机号"
         :rules="userFormRules.mobile"
@@ -17,7 +17,7 @@
       </van-field>
       <van-field
         v-model="user.code"
-        name="验证码"
+        name="code"
         left-icon="smile-o"
         placeholder="请输入验证码"
         :rules="userFormRules.code"
@@ -26,7 +26,13 @@
       >
         <i slot="left-icon" class="iconfont iconyanzhengma"> </i>
         <template #button>
-          <van-button class="send-sms-btn" round size="small" type="default"
+          <van-button
+            class="send-sms-btn"
+            round
+            size="small"
+            type="default"
+            native-type="button"
+            @click="onSendSms"
             >发送验证码</van-button
           >
         </template>
@@ -50,8 +56,8 @@ export default {
   data() {
     return {
       user: {
-        mobile: '13911111111',
-        code: '246810'
+        mobile: '',
+        code: ''
       },
       userFormRules: {
         mobile: [
@@ -106,6 +112,17 @@ export default {
         }
       }
       // 4、根据请求响应结果处理后续操作
+    },
+    async onSendSms() {
+      // 1. 校验手机号
+      try {
+        await this.$refs.loginForm.validate('mobile')
+      } catch (error) {
+        return console.log('验证失败', error)
+      }
+      console.log(111)
+      // 2. 验证通过，显示倒计时
+      // 3. 请求发送验证码
     }
   }
 }
