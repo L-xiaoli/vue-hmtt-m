@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { login } from '@/api/user.js'
+import { login, sendSmsCode } from '@/api/user.js'
 export default {
   name: 'LoginIndex',
   components: {},
@@ -89,7 +89,7 @@ export default {
         ]
       },
       isCountDownShow: false,
-      time: 60 * 1000
+      time: 10 * 1000
     }
   },
   computed: {},
@@ -132,6 +132,18 @@ export default {
       // 2. 验证通过，显示倒计时
       this.isCountDownShow = true
       // 3. 请求发送验证码
+      try {
+        const res = await sendSmsCode(this.user.mobile)
+        this.$toast('发送成功')
+        console.log(res)
+      } catch (err) {
+        // 接口访问次数受限:每手机号每分钟1次
+        if (err.response.status === 429) {
+          this.$toast('发送太频繁了，请稍后重试')
+        } else {
+          this.$toast('发送失败，请稍后重试')
+        }
+      }
     }
   }
 }
