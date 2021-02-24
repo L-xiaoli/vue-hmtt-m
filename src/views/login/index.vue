@@ -63,8 +63,8 @@ export default {
   data() {
     return {
       user: {
-        mobile: '',
-        code: ''
+        mobile: '13911111111',
+        code: '246810'
       },
       userFormRules: {
         mobile: [
@@ -110,9 +110,9 @@ export default {
       })
       // 3、提交表单请求登录
       try {
-        const res = await login(user)
-        console.log('登录成功', res)
+        const { data } = await login(user)
         this.$toast.success('登录成功')
+        this.$store.commit('setUser', data.data)
       } catch (err) {
         if (err.response.status === 400) {
           this.$toast.fail('登录手机号验证码错误失败')
