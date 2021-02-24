@@ -1,14 +1,7 @@
 <template>
   <div class="my-container">
-    <!-- 未登录状态 -->
-    <div class="header not-login">
-      <div class="loginBtn" @click="$router.push('/login')">
-        <img src="~@/assets/mobile.png" alt="" />
-        <span>登录 / 注册</span>
-      </div>
-    </div>
     <!-- 登录状态 -->
-    <div class="header user-info">
+    <div v-if="user" class="header user-info">
       <div class="base-info">
         <div class="left">
           <van-image
@@ -42,6 +35,15 @@
         </div>
       </div>
     </div>
+    <!-- 未登录状态 -->
+    <div v-else class="header not-login">
+      <div class="loginBtn" @click="$router.push('/login')">
+        <img src="~@/assets/mobile.png" alt="" />
+        <span>登录 / 注册</span>
+      </div>
+    </div>
+
+    <!--宫格导航 收藏历史 -->
     <van-grid class="grid-nav" :border="false" clickable :column-num="2">
       <van-grid-item class="grid-item">
         <i slot="icon" class="toutiao toutiao-shoucang"> </i>
@@ -52,15 +54,22 @@
         <span slot="text">历史</span>
       </van-grid-item>
     </van-grid>
+    <van-cell title="消息通知" is-link />
+    <van-cell class="mb-9" title="小智同学" is-link />
+    <van-cell v-if="user" class="logout-cell" title="退出登录" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'MyIndex',
 
   data() {
     return {}
+  },
+  computed: {
+    ...mapState(['user'])
   },
 
   methods: {}
@@ -117,6 +126,11 @@ export default {
           margin-left: 23px;
         }
       }
+      right {
+        .van-button__text {
+          padding: 0 10px;
+        }
+      }
     }
     .data-status {
       display: flex;
@@ -153,6 +167,15 @@ export default {
         font-size: 28px;
       }
     }
+  }
+
+  .logout-cell {
+    text-align: center;
+    color: #d86262;
+  }
+
+  .mb-9 {
+    margin-bottom: 9px;
   }
 }
 </style>

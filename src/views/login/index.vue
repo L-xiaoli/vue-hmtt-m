@@ -115,6 +115,8 @@ export default {
         const { data } = await login(user)
         this.$toast.success('登录成功')
         this.$store.commit('setUser', data.data)
+        // 登录成功跳转回原来的页面（不严谨）
+        this.$router.back()
       } catch (err) {
         if (err.response.status === 400) {
           this.$toast.fail('登录手机号验证码错误失败')
