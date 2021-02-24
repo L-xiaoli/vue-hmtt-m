@@ -13,7 +13,7 @@
         type="number"
         maxlength="11"
       >
-        <i slot="left-icon" class="iconfont iconshouji"> </i>
+        <i slot="left-icon" class="toutiao toutiao-shouji"> </i>
       </van-field>
       <van-field
         v-model="user.code"
@@ -24,7 +24,7 @@
         type="number"
         maxlength="6"
       >
-        <i slot="left-icon" class="iconfont iconyanzhengma"> </i>
+        <i slot="left-icon" class="toutiao toutiao-yanzhengma"> </i>
         <template #button>
           <van-count-down
             v-if="isCountDownShow"
@@ -150,7 +150,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.iconfont {
+.toutiao {
   font-size: 37px;
   margin-right: 10px;
 }
