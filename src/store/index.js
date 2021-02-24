@@ -12,7 +12,7 @@ export default new Vuex.Store({
   mutations: {
     setUser(state, data) {
       state.user = data
-      setItem(TOKEN_KEY, data)
+      setItem(TOKEN_KEY, state.user)
       // window.localStorage.setItem(TOKEN_KEY, JSON.stringify(data))
     }
     // 数据持久化 把数据备份存储到本地

@@ -56,7 +56,13 @@
     </van-grid>
     <van-cell title="消息通知" is-link />
     <van-cell class="mb-9" title="小智同学" is-link />
-    <van-cell v-if="user" class="logout-cell" title="退出登录" />
+    <van-cell
+      v-if="user"
+      class="logout-cell"
+      title="退出登录"
+      clickable
+      @click="onLogout"
+    />
   </div>
 </template>
 
@@ -72,7 +78,24 @@ export default {
     ...mapState(['user'])
   },
 
-  methods: {}
+  methods: {
+    onLogout() {
+      // 退出时的提示
+      this.$dialog
+        .confirm({
+          title: '确认退出？'
+        })
+        .then(() => {
+          // confirm 确认
+          // 确认退出：清除登录（state.user + 本地的user）
+          this.$store.commit('setUser', null)
+        })
+        .catch(() => {
+          // cancel 取消
+          console.log(2)
+        })
+    }
+  }
 }
 </script>
 
