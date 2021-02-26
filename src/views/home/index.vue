@@ -25,12 +25,9 @@
       title-inactive-colo="#777"
       title-active-color="#333"
     >
-      <van-tab title="推荐">内容 1</van-tab>
-      <van-tab title="热门话题">内容 2</van-tab>
-      <van-tab title="科技动态">内容 3</van-tab>
-      <van-tab title="科技动态">内容 3</van-tab>
-      <van-tab title="科技动态">内容 3</van-tab>
-      <van-tab title="科技动态">内容 3</van-tab>
+      <van-tab v-for="item in channels" :key="item.id" :title="item.name"
+        >{{ item.name }}的内容</van-tab
+      >
       <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hamburger-btn">
         <i class="toutiao toutiao-gengduo"></i>
@@ -41,16 +38,30 @@
 </template>
 
 <script>
+import { getChannels } from '@/api/user'
 export default {
   name: 'HomeIndex',
-
   data() {
     return {
-      active: 0
+      active: 0,
+      channels: [] // 频道列表
     }
   },
+  created() {
+    this.getChannels()
+  },
 
-  methods: {}
+  methods: {
+    async getChannels() {
+      try {
+        const { data } = await getChannels()
+        this.channels = data.data.channels
+        console.log(data)
+      } catch (error) {
+        this.$toast('获取频道列表数据失败')
+      }
+    }
+  }
 }
 </script>
 
