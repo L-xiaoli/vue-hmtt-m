@@ -37,7 +37,17 @@
     </div>
     <!-- 未登录状态 -->
     <div v-else class="header not-login">
-      <div class="loginBtn" @click="$router.push('/login')">
+      <div
+        class="loginBtn"
+        @click="
+          $router.push({
+            name: 'login',
+            query: {
+              redirect: '/my'
+            }
+          })
+        "
+      >
         <img src="~@/assets/mobile.png" alt="" />
         <span>登录 / 注册</span>
       </div>
