@@ -122,6 +122,7 @@ export default {
         this.$store.commit('setUser', data.data)
         // 登录成功跳转回原来的页面（不严谨）
         // this.$router.back()
+        // 从哪里来的直接回哪里去，获取不到redirect就到首页
         this.$router.push(this.$route.query.redirect || '/')
       } catch (err) {
         if (err.response.status === 400) {
