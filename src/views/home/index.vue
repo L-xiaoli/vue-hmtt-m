@@ -25,9 +25,13 @@
       title-inactive-colo="#777"
       title-active-color="#333"
     >
-      <van-tab v-for="item in channels" :key="item.id" :title="item.name"
-        >{{ item.name }}的内容</van-tab
+      <van-tab
+        v-for="channel in channels"
+        :key="channel.id"
+        :title="channel.name"
       >
+        <article-list :channel="channel" />
+      </van-tab>
       <div slot="nav-right" class="placeholder"></div>
       <div slot="nav-right" class="hamburger-btn">
         <i class="toutiao toutiao-gengduo"></i>
@@ -39,8 +43,12 @@
 
 <script>
 import { getChannels } from '@/api/user'
+import ArticleList from './components/article-list.vue'
 export default {
   name: 'HomeIndex',
+  components: {
+    ArticleList
+  },
   data() {
     return {
       active: 0,
