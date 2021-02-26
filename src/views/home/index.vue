@@ -13,6 +13,25 @@
       </van-button>
     </van-nav-bar>
     <!-- /导航栏 -->
+    <!-- 频道列表 -->
+    <van-tabs
+      class="channel-tabs"
+      v-model="active"
+      animated
+      swipeable
+      :border="true"
+      color="#3296fa"
+      line-width="15px"
+      line-height="3px"
+      title-inactive-colo="#777"
+      title-active-color="#333"
+    >
+      <van-tab title="推荐">内容 1</van-tab>
+      <van-tab title="热门话题">内容 2</van-tab>
+      <van-tab title="科技动态">内容 3</van-tab>
+      <van-tab title="标签 4">内容 4</van-tab>
+    </van-tabs>
+    <!-- / 频道列表 -->
   </div>
 </template>
 
@@ -21,7 +40,9 @@ export default {
   name: 'HomeIndex',
 
   data() {
-    return {}
+    return {
+      active: 0
+    }
   },
 
   methods: {}
@@ -32,8 +53,8 @@ export default {
 // ! vue scoped 深度操作符：>>> /deep/ ::v-deep
 // 解决scoped属性带来的问题（vue中的scoped属性给相应的DOM结构和CSS选择器都加上了标识，这个唯一的标记保证了唯一性，从而达到了样式的
 .home-container {
-  /deep/.van-nav-bar__title {
-    max-width: unset;
+  /deep/ .van-nav-bar__title {
+    max-width: unset !important;
   }
   .search-btn {
     width: 555px;
@@ -43,6 +64,23 @@ export default {
     font-size: 28px;
     .van-icon {
       font-size: 32px;
+    }
+  }
+  /deep/ .channel-tabs {
+    .van-tabs_wraps {
+      height: 82px;
+    }
+    .van-tab {
+      min-width: 200px;
+      border-right: 1px solid #edeff3;
+    }
+    .van-tabs__nav {
+      padding-bottom: 0;
+    }
+    .van-tabs__line {
+      bottom: 8px;
+      // width: 31px !important;
+      // height: 6px;
     }
   }
 }
