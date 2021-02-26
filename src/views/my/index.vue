@@ -4,13 +4,8 @@
     <div v-if="user" class="header user-info">
       <div class="base-info">
         <div class="left">
-          <van-image
-            class="avator"
-            round
-            fit="cover"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
-          />
-          <span>黑马头条</span>
+          <van-image class="avator" round fit="cover" :src="userInfo.photo" />
+          <span class="name">{{ userInfo.name }}</span>
         </div>
         <div class="right">
           <van-button size="mini" round>编辑资料</van-button>
@@ -18,19 +13,19 @@
       </div>
       <div class="data-status">
         <div class="data-item">
-          <span class="count">10</span>
-          <span class="text">动态</span>
+          <span class="count">{{ userInfo.art_count }}</span>
+          <span class="text">头条</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{ userInfo.follow_count }}</span>
           <span class="text">关注</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{ userInfo.fans_count }}</span>
           <span class="text">粉丝</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{ userInfo.like_count }}</span>
           <span class="text">获赞</span>
         </div>
       </div>
@@ -78,11 +73,20 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getUserInfo } from '@/api/user'
 export default {
   name: 'MyIndex',
 
   data() {
-    return {}
+    return {
+      userInfo: {} // 用户信息
+    }
+  },
+  created() {
+    // 初始化的时候，如果用户登录了，我才请求获取当前登录用户的信息
+    if (this.user) {
+      this.loadUser()
+    }
   },
   computed: {
     ...mapState(['user'])
@@ -104,6 +108,15 @@ export default {
           // cancel 取消
           console.log(2)
         })
+    },
+    async loadUser() {
+      try {
+        const { data } = await getUserInfo()
+        this.userInfo = data.data
+      } catch (err) {
+        console.log(err)
+        this.$toast('获取数据失败')
+      }
     }
   }
 }
