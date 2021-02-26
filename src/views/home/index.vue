@@ -19,7 +19,6 @@
       v-model="active"
       animated
       swipeable
-      :border="true"
       color="#3296fa"
       line-width="15px"
       line-height="3px"
@@ -29,7 +28,13 @@
       <van-tab title="推荐">内容 1</van-tab>
       <van-tab title="热门话题">内容 2</van-tab>
       <van-tab title="科技动态">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
+      <van-tab title="科技动态">内容 3</van-tab>
+      <van-tab title="科技动态">内容 3</van-tab>
+      <van-tab title="科技动态">内容 3</van-tab>
+      <div slot="nav-right" class="placeholder"></div>
+      <div slot="nav-right" class="hamburger-btn">
+        <i class="toutiao toutiao-gengduo"></i>
+      </div>
     </van-tabs>
     <!-- / 频道列表 -->
   </div>
@@ -81,6 +86,35 @@ export default {
       bottom: 8px;
       // width: 31px !important;
       // height: 6px;
+    }
+
+    .placeholder {
+      flex-shrink: 0;
+      width: 66px;
+      height: 82px;
+    }
+
+    .hamburger-btn {
+      position: fixed;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 66px;
+      height: 82px;
+      background-color: rgba(255, 255, 255, 0.9);
+      i.toutiao {
+        font-size: 33px;
+      }
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 1px;
+        height: 100%;
+        background-image: url(~@/assets/gradient-gray-line.png);
+        background-size: contain;
+      }
     }
   }
 }
