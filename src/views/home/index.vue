@@ -14,11 +14,13 @@
     </van-nav-bar>
     <!-- /导航栏 -->
     <!-- 频道列表 -->
+    <!--  swipe-threshold (默认5)滚动阈值，标签数量超过阈值且总宽度超过标签栏宽度时开始横向滚动 -->
     <van-tabs
       class="channel-tabs"
       v-model="active"
       animated
       swipeable
+      swipe-threshold="3"
       color="#3296fa"
       line-width="15px"
       line-height="3px"
@@ -64,7 +66,6 @@ export default {
       try {
         const { data } = await getChannels()
         this.channels = data.data.channels
-        console.log(data)
       } catch (error) {
         this.$toast('获取频道列表数据失败')
       }
