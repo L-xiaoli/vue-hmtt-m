@@ -11,8 +11,8 @@
         class="grid-item"
         v-for="channel in myChannels"
         :key="channel.id"
-        icon="clear"
         :text="channel.name"
+        icon="clear"
       />
     </van-grid>
     <!-- 我的频道 -->
@@ -20,7 +20,7 @@
     <van-cell class="title-text" title="频道推荐" :border="false"> </van-cell>
     <van-grid class="recommend-grid" :gutter="10">
       <van-grid-item
-        class="grid-item "
+        class="grid-item  "
         v-for="value in 8"
         :key="value"
         icon="plus"
@@ -32,28 +32,19 @@
 </template>
 
 <script>
-import { getChannels } from '@/api/user'
+// import { getChannels } from '@/api/user'
 export default {
   name: 'channelEdit',
-
-  data() {
-    return {
-      myChannels: [] // 频道列表
-    }
-  },
-  created() {
-    this.getChannels()
-  },
-  methods: {
-    async getChannels() {
-      try {
-        const { data } = await getChannels()
-        console.log(data)
-        this.myChannels = data.data.channels
-      } catch (error) {
-        this.$toast('获取频道列表数据失败')
+  props: {
+    myChannels: {
+      channels: {
+        type: Object,
+        required: true
       }
     }
+  },
+  data() {
+    return {}
   }
 }
 </script>
