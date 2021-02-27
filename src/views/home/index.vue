@@ -51,17 +51,21 @@
       close-icon-position="top-left"
       position="bottom"
       :style="{ height: '100%' }"
-    />
+    >
+      <channel-edit />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getChannels } from '@/api/user'
 import ArticleList from './components/article-list.vue'
+import channelEdit from './components/channel-edit'
 export default {
   name: 'HomeIndex',
   components: {
-    ArticleList
+    ArticleList,
+    channelEdit
   },
   data() {
     return {
