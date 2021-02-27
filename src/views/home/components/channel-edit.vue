@@ -35,7 +35,7 @@
 </template>
 
 <script>
-// import { getChannels } from '@/api/user'
+import { getAllChannels } from '@/api/channel'
 export default {
   name: 'channelEdit',
   props: {
@@ -51,7 +51,24 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      allChannels: [] // 所有频道数据
+    }
+  },
+  created() {
+    this.loadAllChannels()
+  },
+  methods: {
+    // 获取获取所有频道数据
+    async loadAllChannels() {
+      try {
+        const { data } = await getAllChannels()
+        this.allChannels = data.data.channels
+        console.log(this.allChannels)
+      } catch (error) {
+        this.$toast('获取所有频道数据失败！')
+      }
+    }
   }
 }
 </script>
