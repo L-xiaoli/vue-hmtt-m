@@ -9,10 +9,10 @@
     <van-grid :gutter="10">
       <van-grid-item
         class="grid-item"
-        v-for="value in 8"
-        :key="value"
+        v-for="channel in myChannels"
+        :key="channel.id"
         icon="clear"
-        text="文字"
+        :text="channel.name"
       />
     </van-grid>
     <!-- 我的频道 -->
@@ -32,14 +32,29 @@
 </template>
 
 <script>
+import { getChannels } from '@/api/user'
 export default {
   name: 'channelEdit',
 
   data() {
-    return {}
+    return {
+      myChannels: [] // 频道列表
+    }
   },
-
-  methods: {}
+  created() {
+    this.getChannels()
+  },
+  methods: {
+    async getChannels() {
+      try {
+        const { data } = await getChannels()
+        console.log(data)
+        this.myChannels = data.data.channels
+      } catch (error) {
+        this.$toast('获取频道列表数据失败')
+      }
+    }
+  }
 }
 </script>
 
@@ -61,15 +76,17 @@ export default {
   /deep/.grid-item {
     width: 160px;
     height: 86px;
-
     .van-grid-item__content {
+      white-space: nowrap;
       background-color: #f4f5f6;
+      .van-grid-item__text {
+        font-size: 28px;
+        color: #222;
+        margin-top: 0px;
+      }
     }
-    .van-grid-item__text {
-      font-size: 28px;
-      color: #222;
-    }
-    .van-grid-item__icon {
+
+    .van-icon-clear {
       position: absolute;
       right: -10px;
       top: -10px;
@@ -85,10 +102,7 @@ export default {
       .van-icon-plus {
         font-size: 32px;
         margin-right: 6px;
-      }
-      .van-grid-item__text {
-        font-size: 28px;
-        margin-top: 3px;
+        margin-top: -2px;
       }
     }
   }
