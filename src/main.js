@@ -10,6 +10,8 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 // 加载执行 REM 基准值（html 标签的字体大小）
 import 'amfe-flexible'
+// 加载dayjs初始化配置
+import './utils/dayjs'
 Vue.config.productionTip = false
 Vue.use(Vant)
 new Vue({
