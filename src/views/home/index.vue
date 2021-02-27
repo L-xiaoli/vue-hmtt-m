@@ -35,11 +35,23 @@
         <article-list :channel="channel" />
       </van-tab>
       <div slot="nav-right" class="placeholder"></div>
-      <div slot="nav-right" class="hamburger-btn">
+      <div
+        slot="nav-right"
+        class="hamburger-btn"
+        @click="isEditChannelShow = true"
+      >
         <i class="toutiao toutiao-gengduo"></i>
       </div>
     </van-tabs>
     <!-- / 频道列表 -->
+    <van-popup
+      v-model="isEditChannelShow"
+      closeable
+      round
+      close-icon-position="top-left"
+      position="bottom"
+      :style="{ height: '100%' }"
+    />
   </div>
 </template>
 
@@ -54,7 +66,8 @@ export default {
   data() {
     return {
       active: 0,
-      channels: [] // 频道列表
+      channels: [], // 频道列表
+      isEditChannelShow: false
     }
   },
   created() {
