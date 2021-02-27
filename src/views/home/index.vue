@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar">
+    <van-nav-bar class="page-nav-bar" fixed>
       <van-button
         class="search-btn"
         slot="title"
@@ -74,10 +74,11 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 // ! vue scoped 深度操作符：>>> /deep/ ::v-deep
 // 解决scoped属性带来的问题（vue中的scoped属性给相应的DOM结构和CSS选择器都加上了标识，这个唯一的标记保证了唯一性，从而达到了样式的
 .home-container {
+  padding-top: 174px;
   padding-bottom: 100px;
   /deep/ .van-nav-bar__title {
     max-width: unset !important;
@@ -93,9 +94,21 @@ export default {
     }
   }
   /deep/ .channel-tabs {
-    .van-tabs_wraps {
+    .van-tabs__content {
+      // 响应式布局单位：vm vh
+      // vw:1vw=布局视口宽度的1%
+      // vh:1vh=布局视口高度度的1%
+      min-height: 79vh;
+    }
+    .van-tabs__wrap {
+      position: fixed;
+      top: 92px;
+      left: 0;
+      right: 0;
+      z-index: 1;
       height: 82px;
     }
+
     .van-tab {
       min-width: 200px;
       border-right: 1px solid #edeff3;
