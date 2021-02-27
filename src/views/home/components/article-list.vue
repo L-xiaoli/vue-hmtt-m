@@ -1,8 +1,22 @@
 <template>
-  <div class="article-list">文章列表组件</div>
+  <div class="article-list">
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+    >
+      <van-cell
+        v-for="(article, index) in list"
+        :key="index"
+        :title="article.title"
+      />
+    </van-list>
+  </div>
 </template>
 
 <script>
+import { getArticles } from '@/api/article'
 export default {
   name: 'ArticleList',
   props: {
@@ -13,10 +27,46 @@ export default {
   },
 
   data() {
-    return {}
+    return {
+      list: [], // 存储列表数据的数组
+      loading: false, // 控制加载中Loading 效果
+      finished: false, // 控制数据加载结束 效果
+      timestamp: null // 请求下一页数据的时间戳
+    }
   },
 
-  methods: {}
+  methods: {
+    async onLoad() {
+      // 1、请求获取数据
+      try {
+        // 1. 请求获取数据
+        const { data } = await getArticles({
+          channel_id: this.channel.id, // 频道 id
+          timestamp: this.timestamp || Date.now(), // 时间戳，请求新的推荐数据传当前的时间戳，请求历史推荐传指定的时间戳
+          with_top: 1 // 是否包含置顶，进入页面第一次请求时要包含置顶文章，1-包含置顶，0-不包含
+        })
+        console.log(data)
+
+        // 2、把请求结果数据放到list数组中
+        const { results } = data.data
+        this.list.push(...results)
+        // 3、本次数据加载结束之后要把加载状态设置为结束
+        // loading关闭以后才能触发下一次的加载更多
+        this.loading = false
+
+        // 4、 判断数据是否全部加载完成
+        if (results.length) {
+          //更新获取下一页数据的时间戳
+          this.timestamp = data.data.pre_timestamp
+        } else {
+          // 没有数据了,不再load加载更多数据了
+          this.finished = true
+        }
+      } catch (err) {
+        this.loading = false // 关闭 loading 效果
+      }
+    }
+  }
 }
 </script>
 

@@ -77,6 +77,7 @@ export default {
 // ! vue scoped 深度操作符：>>> /deep/ ::v-deep
 // 解决scoped属性带来的问题（vue中的scoped属性给相应的DOM结构和CSS选择器都加上了标识，这个唯一的标记保证了唯一性，从而达到了样式的
 .home-container {
+  padding-bottom: 100px;
   /deep/ .van-nav-bar__title {
     max-width: unset !important;
   }
