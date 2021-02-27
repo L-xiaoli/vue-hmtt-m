@@ -52,7 +52,7 @@
       position="bottom"
       :style="{ height: '100%' }"
     >
-      <channel-edit :myChannels="channels" />
+      <channel-edit :active="active" :myChannels="channels" />
     </van-popup>
   </div>
 </template>

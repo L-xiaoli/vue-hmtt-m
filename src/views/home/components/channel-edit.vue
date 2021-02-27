@@ -9,11 +9,14 @@
     <van-grid :gutter="10">
       <van-grid-item
         class="grid-item"
-        v-for="channel in myChannels"
+        v-for="(channel, i) in myChannels"
         :key="channel.id"
-        :text="channel.name"
         icon="clear"
-      />
+      >
+        <span class="text" :class="{ active: active === i }" slot="text">{{
+          channel.name
+        }}</span>
+      </van-grid-item>
     </van-grid>
     <!-- 我的频道 -->
     <!-- 频道推荐 -->
@@ -41,6 +44,10 @@ export default {
         type: Object,
         required: true
       }
+    },
+    active: {
+      type: Number,
+      required: true
     }
   },
   data() {
@@ -70,10 +77,14 @@ export default {
     .van-grid-item__content {
       white-space: nowrap;
       background-color: #f4f5f6;
-      .van-grid-item__text {
+      .van-grid-item__text,
+      .text {
         font-size: 28px;
         color: #222;
         margin-top: 0px;
+      }
+      .active {
+        color: red;
       }
     }
 
