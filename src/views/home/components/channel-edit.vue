@@ -24,10 +24,10 @@
     <van-grid class="recommend-grid" :gutter="10">
       <van-grid-item
         class="grid-item  "
-        v-for="value in 8"
-        :key="value"
+        v-for="(channel, i) in getRecommendChannels"
+        :key="i"
         icon="plus"
-        text="文字"
+        :text="channel.name"
       />
     </van-grid>
     <!--/ 频道推荐 -->
@@ -57,6 +57,16 @@ export default {
   },
   created() {
     this.loadAllChannels()
+  },
+  computed: {
+    getRecommendChannels() {
+      return this.allChannels.filter(channel => {
+        // return 一个boolean值（符合条件的第一个元素）
+        return !this.myChannels.find(myChannel => {
+          return myChannel.id === channel.id
+        })
+      })
+    }
   },
   methods: {
     // 获取获取所有频道数据
