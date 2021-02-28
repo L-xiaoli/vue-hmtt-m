@@ -65,6 +65,8 @@
 import { getChannels } from '@/api/user'
 import ArticleList from './components/article-list.vue'
 import channelEdit from './components/channel-edit'
+import { mapState } from 'vuex'
+import { getItem } from '@/utils/storage.js'
 export default {
   name: 'HomeIndex',
   components: {
@@ -81,14 +83,35 @@ export default {
   created() {
     this.getChannels()
   },
-
+  computed: {
+    ...mapState(['user'])
+  },
   methods: {
     async getChannels() {
       try {
-        const { data } = await getChannels()
-        this.channels = data.data.channels
-      } catch (error) {
-        this.$toast('获取频道列表数据失败')
+        let channels = []
+        if (this.user) {
+          // 已登录，请求获取用户的的频道数据
+          const { data } = await getChannels()
+          channels = data.data.channels
+        } else {
+          // 未登录  获取本地数据 ，然后判断
+          const localChannels = getItem('TOUTIAO_CHANNELS')
+          if (localChannels) {
+            // 有本地频道数据，则使用本地数据
+            channels = localChannels
+          } else {
+            // 没有本地频道数据，则请求获取默认推荐的频道列表
+            const { data } = await getChannels()
+            channels = data.data.channels
+          }
+        }
+
+        // 将数据更新到组件中
+        this.channels = channels
+      } catch (err) {
+        console.log(err)
+        this.$toast('数据获取失败')
       }
     },
     // 切换频道
