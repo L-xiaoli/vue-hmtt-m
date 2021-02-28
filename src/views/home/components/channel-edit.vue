@@ -17,13 +17,14 @@
         class="grid-item"
         v-for="(channel, i) in myChannels"
         :key="channel.id"
+        @click="onMyChannelClick(channel, i)"
       >
-        <van-icon v-show="isShowEdit && i !== 0" slot="icon" name="clear" />
-        <!-- <van-icon
+        <!-- <van-icon v-show="isShowEdit && i !== 0" slot="icon" name="clear" /> -->
+        <van-icon
           v-show="isShowEdit && !fixChannel.includes(channel.id)"
           slot="icon"
           name="clear"
-        /> -->
+        />
         <van-icon
           v-show="isShowEdit && !fixChannel.includes(channel.id)"
           slot="icon"
@@ -103,6 +104,14 @@ export default {
     addChannel(channel) {
       console.log(channel)
       this.myChannels.push(channel)
+    },
+    onMyChannelClick(channel, i) {
+      if (this.isShowEdit) {
+        // 编辑器状态：删除频道
+      } else {
+        // 非编辑器状态：切换频道
+        this.$emit('update-active', i)
+      }
     }
   }
 }

@@ -52,7 +52,11 @@
       position="bottom"
       :style="{ height: '100%' }"
     >
-      <channel-edit :active="active" :myChannels="channels" />
+      <channel-edit
+        :active="active"
+        :myChannels="channels"
+        @update-active="updateActive"
+      />
     </van-popup>
   </div>
 </template>
@@ -71,7 +75,7 @@ export default {
     return {
       active: 0,
       channels: [], // 频道列表
-      isEditChannelShow: false
+      isEditChannelShow: false // 弹出层是否显示
     }
   },
   created() {
@@ -86,6 +90,11 @@ export default {
       } catch (error) {
         this.$toast('获取频道列表数据失败')
       }
+    },
+    // 切换频道
+    updateActive(i) {
+      this.active = i // 当前频道高亮并切换
+      this.isEditChannelShow = false // 关闭弹出层
     }
   }
 }
