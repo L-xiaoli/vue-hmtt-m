@@ -28,6 +28,7 @@
         :key="i"
         icon="plus"
         :text="channel.name"
+        @click="addChannel(channel)"
       />
     </van-grid>
     <!--/ 频道推荐 -->
@@ -59,6 +60,8 @@ export default {
     this.loadAllChannels()
   },
   computed: {
+    // 计算属性：观测依赖数据的变化
+    // 若依赖的数据发生变化，则计算属性会重新运算获取最新的数据。
     getRecommendChannels() {
       return this.allChannels.filter(channel => {
         // return 一个boolean值（符合条件的第一个元素）
@@ -74,10 +77,14 @@ export default {
       try {
         const { data } = await getAllChannels()
         this.allChannels = data.data.channels
-        console.log(this.allChannels)
       } catch (error) {
         this.$toast('获取所有频道数据失败！')
       }
+    },
+    // 添加频道到我的频道
+    addChannel(channel) {
+      console.log(channel)
+      this.myChannels.push(channel)
     }
   }
 }
