@@ -18,6 +18,12 @@
         v-for="(channel, i) in myChannels"
         :key="channel.id"
       >
+        <van-icon v-show="isShowEdit && i !== 0" slot="icon" name="clear" />
+        <!-- <van-icon
+          v-show="isShowEdit && !fixChannel.includes(channel.id)"
+          slot="icon"
+          name="clear"
+        /> -->
         <van-icon
           v-show="isShowEdit && !fixChannel.includes(channel.id)"
           slot="icon"
