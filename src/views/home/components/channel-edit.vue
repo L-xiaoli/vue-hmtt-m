@@ -24,7 +24,7 @@
           v-show="isShowEdit && !fixChannel.includes(channel.id)"
           slot="icon"
           name="clear"
-          @click="removeChannel(i)"
+          @click="removeChannel(channel, i)"
         />
 
         <span class="text" :class="{ active: active === i }" slot="text">{{
@@ -50,7 +50,11 @@
 </template>
 
 <script>
-import { getAllChannels, addUserChannel } from '@/api/channel'
+import {
+  getAllChannels,
+  addUserChannel,
+  deleteUserChannel
+} from '@/api/channel'
 import { mapState } from 'vuex'
 import { setItem } from '@/utils/storage.js'
 export default {
@@ -127,11 +131,23 @@ export default {
       }
     },
     // 编辑器状态：点击图标删除频道
-    removeChannel(i) {
+    async removeChannel(channel, i) {
       if (i <= this.active) {
         this.$emit('update-active', this.active - 1, true)
       }
       this.myChannels.splice(i, 1)
+      if (this.user) {
+        try {
+          // 已登录，将数据存储到线上
+          await deleteUserChannel(channel.id)
+          this.$toast('删除成功')
+        } catch (error) {
+          this.$toast('删除失败')
+        }
+      } else {
+        // 未登录，将数据存储到本地
+        setItem('TOUTIAO_CHANNELS', this.myChannels)
+      }
     }
   }
 }
