@@ -50,7 +50,9 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel'
+import { getAllChannels, addUserChannel } from '@/api/channel'
+import { mapState } from 'vuex'
+import { setItem } from '@/utils/storage.js'
 export default {
   name: 'channelEdit',
   props: {
@@ -76,6 +78,7 @@ export default {
     this.loadAllChannels()
   },
   computed: {
+    ...mapState(['user']),
     // 计算属性：观测依赖数据的变化
     // 若依赖的数据发生变化，则计算属性会重新运算获取最新的数据。
     getRecommendChannels() {
@@ -97,11 +100,26 @@ export default {
         this.$toast('获取所有频道数据失败！')
       }
     },
-    // 添加频道到我的频道
-    addChannel(channel) {
-      console.log(channel)
+    // 点击添加频道
+    async addChannel(channel) {
       this.myChannels.push(channel)
+      if (this.user) {
+        try {
+          // 已登录，数据存储到线上
+          await addUserChannel({
+            id: channel.id, // 频道 id
+            seq: this.myChannels.length // 频道的 序号
+          })
+          this.$toast('添加成功')
+        } catch (err) {
+          this.$toast('添加失败')
+        }
+      } else {
+        // 未登陆
+        setItem('TOUTIAO_CHANNELS', this.myChannels)
+      }
     },
+
     onMyChannelClick(i) {
       if (!this.isShowEdit) {
         // 非编辑器状态：切换频道
