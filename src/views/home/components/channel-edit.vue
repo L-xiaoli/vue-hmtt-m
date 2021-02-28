@@ -17,19 +17,16 @@
         class="grid-item"
         v-for="(channel, i) in myChannels"
         :key="channel.id"
-        @click="onMyChannelClick(channel, i)"
+        @click="onMyChannelClick(i)"
       >
         <!-- <van-icon v-show="isShowEdit && i !== 0" slot="icon" name="clear" /> -->
         <van-icon
           v-show="isShowEdit && !fixChannel.includes(channel.id)"
           slot="icon"
           name="clear"
+          @click="removeChannel(i)"
         />
-        <van-icon
-          v-show="isShowEdit && !fixChannel.includes(channel.id)"
-          slot="icon"
-          name="clear"
-        />
+
         <span class="text" :class="{ active: active === i }" slot="text">{{
           channel.name
         }}</span>
@@ -105,19 +102,18 @@ export default {
       console.log(channel)
       this.myChannels.push(channel)
     },
-    onMyChannelClick(channel, i) {
-      // 判断是否为推荐,不能删除推荐
-      if (i === 0) return
-      if (this.isShowEdit) {
-        // 编辑器状态：删除频道
-        if (i <= this.active) {
-          this.$emit('update-active', this.active - 1, true)
-        }
-        this.myChannels.splice(i, 1)
-      } else {
+    onMyChannelClick(i) {
+      if (!this.isShowEdit) {
         // 非编辑器状态：切换频道
         this.$emit('update-active', i, false)
       }
+    },
+    // 编辑器状态：点击图标删除频道
+    removeChannel(i) {
+      if (i <= this.active) {
+        this.$emit('update-active', this.active - 1, true)
+      }
+      this.myChannels.splice(i, 1)
     }
   }
 }
