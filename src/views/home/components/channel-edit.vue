@@ -2,8 +2,14 @@
   <div class="channel-edit">
     <!-- 我的频道 -->
     <van-cell class="title-text" title="我的频道" :border="false">
-      <van-button class="edit-btn" size="mini" round type="danger" plain
-        >编辑</van-button
+      <van-button
+        class="edit-btn"
+        size="mini"
+        round
+        type="danger"
+        plain
+        @click="isShowEdit = !isShowEdit"
+        >{{ isShowEdit ? '完成' : '编辑' }}</van-button
       >
     </van-cell>
     <van-grid :gutter="10">
@@ -11,8 +17,12 @@
         class="grid-item"
         v-for="(channel, i) in myChannels"
         :key="channel.id"
-        icon="clear"
       >
+        <van-icon
+          v-show="isShowEdit && !fixChannel.includes(channel.id)"
+          slot="icon"
+          name="clear"
+        />
         <span class="text" :class="{ active: active === i }" slot="text">{{
           channel.name
         }}</span>
@@ -53,7 +63,9 @@ export default {
   },
   data() {
     return {
-      allChannels: [] // 所有频道数据
+      allChannels: [], // 所有频道数据
+      isShowEdit: false, // 删除图标是否显示
+      fixChannel: [0] // 固定频道（不允许删除）
     }
   },
   created() {
@@ -89,7 +101,6 @@ export default {
   }
 }
 </script>
-
 <style lang="less" scoped>
 .channel-edit {
   padding: 85px 0;
@@ -121,8 +132,10 @@ export default {
         color: red;
       }
     }
-
-    .van-icon-clear {
+    .van-grid-item__icon-wrapper {
+      position: unset;
+    }
+    /deep/.van-icon-clear {
       position: absolute;
       right: -10px;
       top: -10px;
