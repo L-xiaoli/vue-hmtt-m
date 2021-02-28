@@ -106,11 +106,17 @@ export default {
       this.myChannels.push(channel)
     },
     onMyChannelClick(channel, i) {
+      // 判断是否为推荐,不能删除推荐
+      if (i === 0) return
       if (this.isShowEdit) {
         // 编辑器状态：删除频道
+        if (i <= this.active) {
+          this.$emit('update-active', this.active - 1, true)
+        }
+        this.myChannels.splice(i, 1)
       } else {
         // 非编辑器状态：切换频道
-        this.$emit('update-active', i)
+        this.$emit('update-active', i, false)
       }
     }
   }

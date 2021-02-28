@@ -92,9 +92,9 @@ export default {
       }
     },
     // 切换频道
-    updateActive(i) {
+    updateActive(i, isShow) {
       this.active = i // 当前频道高亮并切换
-      this.isEditChannelShow = false // 关闭弹出层
+      this.isEditChannelShow = isShow // 关闭弹出层
     }
   }
 }
