@@ -4,7 +4,7 @@
     <!-- 在van-search外层增加form标签, 且action不为空,即可IOS输入法显示搜索按钮 -->
     <form action="/">
       <van-search
-        v-model="value"
+        v-model="searchText"
         show-action
         background="#3296fa"
         placeholder="请输入搜索关键词"
@@ -14,18 +14,15 @@
     </form>
     <!-- / 搜索栏 -->
 
-    <!-- 搜索历史记录 -->
-    <search-history></search-history>
-    <!-- / 搜索历史记录 -->
-
-    <!-- 搜索联想建议 -->
-    <search-suggestion></search-suggestion>
-    <!-- / 搜索联想建议 -->
-
     <!-- 历史结果 -->
-
-    <search-result></search-result>
+    <search-result v-if="isShowResult"></search-result>
     <!-- / 历史结果 -->
+    <!-- 搜索联想建议 -->
+    <search-suggestion v-else-if="searchText"></search-suggestion>
+    <!-- / 搜索联想建议 -->
+    <!-- 搜索历史记录 -->
+    <search-history v-else></search-history>
+    <!-- / 搜索历史记录 -->
   </div>
 </template>
 
@@ -42,13 +39,15 @@ export default {
   },
   data() {
     return {
-      value: ''
+      searchText: '',
+      isShowResult: false
     }
   },
 
   methods: {
     onSearch(val) {
       this.$toast(val)
+      this.isShowResult = true
     },
     onCancel() {
       this.$toast('取消')
