@@ -33,6 +33,7 @@
 import SearchHistory from './components/search-history.vue'
 import SearchSuggestion from './components/search-suggestion.vue'
 import SearchResult from './components/search-result.vue'
+
 export default {
   name: 'SearchIndex',
   components: {
