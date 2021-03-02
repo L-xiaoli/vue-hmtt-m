@@ -4,6 +4,7 @@
     <!-- 在van-search外层增加form标签, 且action不为空,即可IOS输入法显示搜索按钮 -->
     <form action="/">
       <van-search
+        autofocus="true"
         v-model="searchText"
         show-action
         background="#3296fa"

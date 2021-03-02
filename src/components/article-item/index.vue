@@ -1,5 +1,14 @@
 <template>
-  <van-cell class="article-item">
+  <!-- :to="`/article/${article.art_id}`"  -->
+  <van-cell
+    :to="{
+      name: 'article',
+      params: {
+        articleId: article.art_id
+      }
+    }"
+    class="article-item"
+  >
     <div slot="title" class="title van-multi-ellipsis--l2">
       {{ article.title }}
     </div>
