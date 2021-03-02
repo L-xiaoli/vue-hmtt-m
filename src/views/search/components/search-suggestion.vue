@@ -3,9 +3,10 @@
     <van-cell
       v-for="(suggestion, index) in suggestions"
       :key="index"
-      :title="suggestion.title"
       icon="search"
-    />
+    >
+      <div slot="title" v-html="highlightText(suggestion.title)"></div>
+    </van-cell>
   </div>
 </template>
 
@@ -34,6 +35,7 @@ export default {
       immediate: true // 该回调将会在侦听开始之后被立即调用
     }
   },
+
   methods: {
     async loadSearchSuggestion(q) {
       try {
@@ -42,9 +44,20 @@ export default {
       } catch {
         this.$toast('获取失败')
       }
+    },
+    highlightText(text) {
+      const highlightStr = `<span class="highlight">${this.searchText}</span>`
+      const reg = new RegExp(this.searchText, 'gi')
+      return text.replace(reg, highlightStr)
     }
   }
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.search-suggestion {
+  /deep/ span.highlight {
+    color: red;
+  }
+}
+</style>
