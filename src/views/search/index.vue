@@ -80,7 +80,8 @@ export default {
       this.isShowResult = true
     },
     onCancel() {
-      this.$toast('取消')
+      // 点击取消，回到home页面
+      this.$router.push('/')
     }
   }
 }
