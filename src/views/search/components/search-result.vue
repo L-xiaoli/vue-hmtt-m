@@ -45,9 +45,9 @@ export default {
           q: this.searchText // 搜索关键字
         })
         // 模拟随机失败情况
-        if (Math.random() > 0.5) {
-          JSON.parse('ss')
-        }
+        // if (Math.random() > 0.5) {
+        //   JSON.parse('ss')
+        // }
         // 2. 将数据添加到列表中
         const { results } = data.data
         this.list.push(...results)

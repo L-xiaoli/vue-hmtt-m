@@ -26,7 +26,8 @@
     ></search-suggestion>
     <!-- / 搜索联想建议 -->
     <!-- 搜索历史记录 -->
-    <search-history v-else> </search-history>
+    <search-history v-else :search-histories="searchHistories">
+    </search-history>
     <!-- / 搜索历史记录 -->
   </div>
 </template>
@@ -48,15 +49,25 @@ export default {
   data() {
     return {
       searchText: '',
-      isShowResult: false
+      isShowResult: false,
+      searchHistories: []
     }
   },
 
   methods: {
     onSearch(val) {
-      console.log(val)
-      this.searchText = val // 把点击的联想建议赋值给输入框
-      this.isShowResult = true // 展示搜索结果
+      // 1.把点击的联想建议赋值给输入框
+      this.searchText = val
+      // 2. 搜索内容添加到历史记录里面
+      // 要求：不要有重复历史记录、最新的排在最前面
+      const index = this.searchHistories.indexOf(val)
+      if (index !== -1) {
+        // 存在：删除之前的数据，重新添加到数组前面
+        this.searchHistories.splice(index, 1)
+      }
+      this.searchHistories.unshift(val)
+      // 3. 展示搜索结果
+      this.isShowResult = true
     },
     onCancel() {
       this.$toast('取消')
