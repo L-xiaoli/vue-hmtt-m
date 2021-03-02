@@ -1,16 +1,19 @@
 <template>
   <div class="search-history">
     <van-cell title="搜索历史">
-      <span>全部删除</span>
-      <span>完成</span>
-      <van-icon name="delete" />
+      <div v-if="ishowAllDelete">
+        <span @click="$emit('deleteAll')" class="delete">全部删除</span>
+        <span @click="ishowAllDelete = false">完成</span>
+      </div>
+      <van-icon v-else name="delete" @click="ishowAllDelete = true" />
     </van-cell>
     <van-cell
       v-for="(history, index) in searchHistories"
       :key="index"
       :title="history"
+      @click="searchHistory(history)"
     >
-      <van-icon name="close" />
+      <van-icon name="close" v-if="ishowAllDelete" @click="deleteThis(index)" />
     </van-cell>
   </div>
 </template>
@@ -25,11 +28,29 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      ishowAllDelete: false
+    }
   },
 
-  methods: {}
+  methods: {
+    // 根据索引删除某条记录
+    deleteThis(index) {
+      this.searchHistories.splice(index, 1)
+    },
+    searchHistory(HistoryItem) {
+      if (!this.ishowAllDelete) {
+        this.$emit('search', HistoryItem)
+      }
+    }
+  }
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.search-history {
+  .delete {
+    margin-right: 10px;
+  }
+}
+</style>

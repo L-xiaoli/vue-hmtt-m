@@ -26,7 +26,12 @@
     ></search-suggestion>
     <!-- / 搜索联想建议 -->
     <!-- 搜索历史记录 -->
-    <search-history v-else :search-histories="searchHistories">
+    <search-history
+      v-else
+      :search-histories="searchHistories"
+      @deleteAll="searchHistories = []"
+      @search="onSearch"
+    >
     </search-history>
     <!-- / 搜索历史记录 -->
   </div>
@@ -36,7 +41,6 @@
 import SearchHistory from './components/search-history.vue'
 import SearchSuggestion from './components/search-suggestion.vue'
 import SearchResult from './components/search-result.vue'
-
 export default {
   name: 'SearchIndex',
   props: {},
