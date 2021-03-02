@@ -14,7 +14,12 @@
 <script>
 export default {
   name: 'SearchResult',
-
+  props: {
+    searchText: {
+      type: String,
+      require: true
+    }
+  },
   data() {
     return {
       list: [],

@@ -10,21 +10,23 @@
         placeholder="请输入搜索关键词"
         @search="onSearch"
         @cancel="onCancel"
+        @focus="isShowResult = false"
       />
     </form>
     <!-- / 搜索栏 -->
 
-    <!-- 历史结果 -->
-    <search-result v-if="isShowResult"></search-result>
-    <!-- / 历史结果 -->
+    <!-- 搜索结果 -->
+    <search-result v-if="isShowResult" :searchText="searchText"></search-result>
+    <!-- / 搜索结果 -->
     <!-- 搜索联想建议 -->
     <search-suggestion
       v-else-if="searchText"
+      @search="onSearch"
       :searchText="searchText"
     ></search-suggestion>
     <!-- / 搜索联想建议 -->
     <!-- 搜索历史记录 -->
-    <search-history v-else></search-history>
+    <search-history v-else> </search-history>
     <!-- / 搜索历史记录 -->
   </div>
 </template>
@@ -36,6 +38,8 @@ import SearchResult from './components/search-result.vue'
 
 export default {
   name: 'SearchIndex',
+  props: {},
+
   components: {
     SearchHistory,
     SearchSuggestion,
@@ -50,8 +54,9 @@ export default {
 
   methods: {
     onSearch(val) {
-      this.$toast(val)
-      this.isShowResult = true
+      console.log(val)
+      this.searchText = val // 把点击的联想建议赋值给输入框
+      this.isShowResult = true // 展示搜索结果
     },
     onCancel() {
       this.$toast('取消')
