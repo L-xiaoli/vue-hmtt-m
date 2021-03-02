@@ -11,13 +11,13 @@
 
     <div class="main-wrap">
       <!-- 加载中 -->
-      <div class="loading-wrap">
+      <div v-if="isLoading" class="loading-wrap">
         <van-loading color="#3296fa" vertical>加载中</van-loading>
       </div>
       <!-- /加载中 -->
 
       <!-- 加载完成-文章详情 -->
-      <div class="article-detail">
+      <div v-else-if="article.title" class="article-detail">
         <!-- 文章标题 -->
         <h1 class="article-title">{{ article.title }}</h1>
         <!-- /文章标题 -->
@@ -59,17 +59,19 @@
       <!-- /加载完成-文章详情 -->
 
       <!-- 加载失败：404 -->
-      <div class="error-wrap">
+      <div v-else-if="errStatus === 404" class="error-wrap">
         <van-icon name="failure" />
         <p class="text">该资源不存在或已删除！</p>
       </div>
       <!-- /加载失败：404 -->
 
       <!-- 加载失败：其它未知错误（例如网络原因或服务端异常） -->
-      <div class="error-wrap">
+      <div v-else class="error-wrap">
         <van-icon name="failure" />
         <p class="text">内容加载失败！</p>
-        <van-button class="retry-btn">点击重试</van-button>
+        <van-button class="retry-btn" @click="loadArtcileInfo"
+          >点击重试</van-button
+        >
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
@@ -101,7 +103,9 @@ export default {
   },
   data() {
     return {
-      article: ''
+      article: '', // 文章详情
+      isLoading: true, // 文章加载状态
+      errStatus: 0 // 失败状态码
     }
   },
   computed: {},
@@ -112,14 +116,18 @@ export default {
   mounted() {},
   methods: {
     async loadArtcileInfo() {
+      this.isLoading = true
       try {
         const { data } = await getArticleById(this.articleId)
-        console.log(data.data)
         this.article = data.data
       } catch (err) {
+        if (err.response && err.response.status === 404) {
+          this.errStatus = 404
+        }
         this.$toast('获取失败')
-        console.log(err)
       }
+      // 无论成功失败，都需要关闭loading
+      this.isLoading = false
     },
     onClickLeft() {
       this.$router.push('/')
