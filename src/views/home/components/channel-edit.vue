@@ -106,14 +106,14 @@ export default {
     },
     // 点击添加频道
     async addChannel(channel) {
-      this.myChannels.push(channel)
       if (this.user) {
         try {
           // 已登录，数据存储到线上
-          await addUserChannel({
+          const mychannel = await addUserChannel({
             id: channel.id, // 频道 id
             seq: this.myChannels.length // 频道的 序号
           })
+          this.myChannels.push(mychannel)
           this.$toast('添加成功')
         } catch (err) {
           this.$toast('添加失败')

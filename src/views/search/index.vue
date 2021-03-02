@@ -41,20 +41,26 @@
 import SearchHistory from './components/search-history.vue'
 import SearchSuggestion from './components/search-suggestion.vue'
 import SearchResult from './components/search-result.vue'
+import { setItem, getItem } from '@/utils/storage.js'
 export default {
   name: 'SearchIndex',
   props: {},
-
   components: {
     SearchHistory,
     SearchSuggestion,
     SearchResult
   },
+  watch: {
+    searchHistories(val) {
+      // 同步到本地存储
+      setItem('TOUTIAO-SEARCH-HIDTORIES', val)
+    }
+  },
   data() {
     return {
       searchText: '',
       isShowResult: false,
-      searchHistories: []
+      searchHistories: getItem('TOUTIAO-SEARCH-HIDTORIES') || []
     }
   },
 
