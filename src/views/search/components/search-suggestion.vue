@@ -4,9 +4,9 @@
       v-for="(suggestion, index) in suggestions"
       :key="index"
       icon="search"
-      @click="$emit('search', suggestion.title)"
+      @click="$emit('search', suggestion)"
     >
-      <div slot="title" v-html="highlightText(suggestion.title)"></div>
+      <div slot="title" v-html="highlightText(suggestion)"></div>
     </van-cell>
   </div>
 </template>
@@ -41,7 +41,7 @@ export default {
     async loadSearchSuggestion(q) {
       try {
         const { data } = await getSearchSuggestion(q)
-        this.suggestions = data.data.results
+        this.suggestions = data.data.options
       } catch {
         this.$toast('获取失败')
       }
