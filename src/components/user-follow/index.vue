@@ -24,6 +24,10 @@
 import { addFollow, deleteFollow } from '@/api/user.js'
 export default {
   name: 'UserFollow',
+  model: {
+    prop: 'isFollowed', // 默认是value
+    event: 'update-isFollowed' // 默认是 input
+  },
   props: {
     isFollowed: {
       type: Boolean,
@@ -54,7 +58,7 @@ export default {
           await addFollow(this.userId)
         }
         // 更新视图
-        this.$emit('update-follow', !this.isFollowed)
+        this.$emit('update-isFollowed', !this.isFollowed)
       } catch (error) {
         let message = '操作失败,请稍后重试！'
         if (error.response && error.response.status === 400) {

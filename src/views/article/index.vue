@@ -35,11 +35,19 @@
           <div slot="label" class="publish-date">
             {{ article.pubdate | relativeTime }}
           </div>
+          <!-- 传递给子组件的数据既要使用又要更改：
+            传递：props
+                :is-followed="article.is_followed"
+            修改：自定义事件
+                @update-follow="article.is_followed = $event"
+            简写方式：在组件上使用v-model(一个组件只能使用一次)
+            v-model=  value="article.is_followed"   +  @input="article.is_followed = $event"
+            多个数据想实现这个功能：.sync
+            -->
           <user-follow
             class="follow-btn"
-            :is-followed="article.is_followed"
+            v-model="article.is_followed"
             :user-id="article.aut_id"
-            @update-follow="article.is_followed = $event"
           />
         </van-cell>
         <!-- /用户信息 -->
