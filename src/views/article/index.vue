@@ -35,27 +35,12 @@
           <div slot="label" class="publish-date">
             {{ article.pubdate | relativeTime }}
           </div>
-          <van-button
-            v-if="article.is_followed"
-            @click="onFollow"
+          <user-follow
             class="follow-btn"
-            round
-            size="small"
-            :loading="followLoading"
-            >已关注</van-button
-          >
-          <van-button
-            @click="onFollow"
-            v-else
-            class="follow-btn"
-            type="info"
-            color="#3296fa"
-            round
-            size="small"
-            icon="plus"
-            :loading="followLoading"
-            >关注</van-button
-          >
+            :is-followed="article.is_followed"
+            :user-id="article.aut_id"
+            @update-follow="article.is_followed = $event"
+          />
         </van-cell>
         <!-- /用户信息 -->
 
@@ -105,10 +90,12 @@
 import { getArticleById } from '@/api/article.js'
 import './github-markdown.css'
 import { ImagePreview } from 'vant'
-import { addFollow, deleteFollow } from '@/api/user.js'
+import UserFollow from '@/components/user-follow'
 export default {
   name: 'ArticleIndex',
-  components: {},
+  components: {
+    UserFollow
+  },
   props: {
     articleId: {
       type: [Number, String, Object],
@@ -137,9 +124,9 @@ export default {
         const { data } = await getArticleById(this.articleId)
         this.article = data.data
         // 数据加载完成
-        setTimeout(() => {
-          this.previewImage()
-        }, 10)
+        // setTimeout(() => {
+        //   this.previewImage()
+        // }, 10)
       } catch (err) {
         if (err.response && err.response.status === 404) {
           this.errStatus = 404
@@ -148,7 +135,7 @@ export default {
       }
       // 无论成功失败，都需要关闭loading
       this.isLoading = false
-      // this.$nextTick(this.previewImage)
+      this.$nextTick(this.previewImage)
     },
     onClickLeft() {
       this.$router.push('/')
@@ -172,30 +159,6 @@ export default {
           })
         }
       })
-    },
-    // 关注于取消关注
-    async onFollow() {
-      // 开启 loading状态
-      this.followLoading = true
-      try {
-        if (this.article.is_followed) {
-          // 已关注： 取消关注
-          await deleteFollow(this.article.aut_id)
-        } else {
-          // 未关注 ： 关注用户
-          await addFollow(this.article.aut_id)
-        }
-        // 更新视图
-        this.article.is_followed = !this.article.is_followed
-      } catch (error) {
-        let message = '操作失败,请稍后重试！'
-        if (error.response && error.response.status === 400) {
-          message = '用户不能关注自己！'
-        }
-        this.$toast.fail(message)
-      }
-      // 开启 loading状态
-      this.followLoading = false
     }
   }
 }
