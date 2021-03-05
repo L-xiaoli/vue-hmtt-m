@@ -71,7 +71,14 @@
             :article-id="article.art_id"
           />
           <!-- / 收藏文章按钮 -->
-          <van-icon color="#777" name="good-job-o" />
+          <!-- 点赞 -->
+          <like-article
+            class="btn-item"
+            v-model="article.attitude"
+            :article-id="article.art_id"
+          />
+
+          <!-- /点赞 -->
           <van-icon name="share" color="#777777"></van-icon>
         </div>
         <!-- /底部区域 -->
@@ -104,11 +111,13 @@ import './github-markdown.css'
 import { ImagePreview } from 'vant'
 import UserFollow from '@/components/user-follow'
 import CollectArticle from '@/components/collect-article'
+import LikeArticle from '@/components/like-article'
 export default {
   name: 'ArticleIndex',
   components: {
     UserFollow,
-    CollectArticle
+    CollectArticle,
+    LikeArticle
   },
   props: {
     articleId: {

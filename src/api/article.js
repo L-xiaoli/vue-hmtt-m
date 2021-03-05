@@ -39,3 +39,26 @@ export const deleteCollect = target => {
     url: `/app/v1_0/article/collections/${target}`
   })
 }
+
+/**
+ * 关注用户
+ */
+export const addLike = articleId => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/likings',
+    data: {
+      target: articleId
+    }
+  })
+}
+
+/**
+ * 取消关注
+ */
+export const deleteLike = articleId => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/article/likings/${articleId}`
+  })
+}

@@ -64,7 +64,7 @@ export const addFollow = userId => {
 }
 
 /**
- * 曲线关注关注
+ * 取消关注
  */
 export const deleteFollow = userId => {
   return request({
