@@ -37,7 +37,9 @@ export default {
       limit: 10 // 首次获取评论的条数
     }
   },
-
+  created() {
+    this.onComment()
+  },
   methods: {
     async onComment() {
       try {
@@ -48,11 +50,11 @@ export default {
           offset: this.offset, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
           limit: this.limit // 获取的评论数据个数
         })
-
         // 2. 将数据添加到列表中
         const { results } = data.data
         this.list.push(...results)
-
+        // 将文章总数量  传递还给父组件
+        this.$emit('onload-success', data.data)
         // 3. 将loading设置为false
         this.loading = false
         // 4. 判断是否还有数据 有：获取下一页的页码，无：设置finshed设置结束

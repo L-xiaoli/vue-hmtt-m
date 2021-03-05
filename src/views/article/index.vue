@@ -60,14 +60,17 @@
         ></div>
         <van-divider>正文结束</van-divider>
         <!-- 文章评论 -->
-        <comment-list :source="article.art_id" />
+        <comment-list
+          :source="article.art_id"
+          @onload-success="totalCount = $event.total_count"
+        />
         <!-- /  文章评论 -->
         <!-- 底部区域 -->
         <div class="article-bottom">
           <van-button class="comment-btn" type="default" round size="small"
             >写评论</van-button
           >
-          <van-icon name="comment-o" info="123" color="#777" />
+          <van-icon name="comment-o" :info="totalCount" color="#777" />
           <!-- 收藏文章按钮 -->
           <collect-article
             v-model="article.is_collected"
@@ -135,7 +138,8 @@ export default {
       article: '', // 文章详情
       isLoading: true, // 文章加载状态
       errStatus: 0, // 失败状态码
-      followLoading: false // 关注加载状态
+      followLoading: false, // 关注加载状态
+      totalCount: 0 // 评论总条数
     }
   },
   computed: {},
