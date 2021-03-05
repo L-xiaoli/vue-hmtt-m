@@ -48,7 +48,7 @@ export default {
         // 此时 数据不是立即的，应该取反
         this.$toast.success(likeStatus === 1 ? '点赞成功' : '取消点赞')
       } catch (error) {
-        this.$toast.fail('收藏失败，请稍后再试！')
+        this.$toast.fail('点赞失败，请稍后再试！')
       }
       this.loading = false
     }
