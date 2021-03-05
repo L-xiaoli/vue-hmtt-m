@@ -81,12 +81,15 @@
     </div>
 
     <!-- 底部区域 -->
+
     <div class="article-bottom">
       <van-button class="comment-btn" type="default" round size="small"
         >写评论</van-button
       >
       <van-icon name="comment-o" info="123" color="#777" />
-      <van-icon color="#777" name="star-o" />
+      <!-- 收藏文章按钮 -->
+      <collect-article />
+      <!-- / 收藏文章按钮 -->
       <van-icon color="#777" name="good-job-o" />
       <van-icon name="share" color="#777777"></van-icon>
     </div>
@@ -99,10 +102,12 @@ import { getArticleById } from '@/api/article.js'
 import './github-markdown.css'
 import { ImagePreview } from 'vant'
 import UserFollow from '@/components/user-follow'
+import CollectArticle from '@/components/collect-article'
 export default {
   name: 'ArticleIndex',
   components: {
-    UserFollow
+    UserFollow,
+    CollectArticle
   },
   props: {
     articleId: {
