@@ -53,7 +53,11 @@
         <!-- /用户信息 -->
 
         <!-- 文章内容 -->
-        <div class="article-content" v-html="article.content"></div>
+        <div
+          ref="article-content"
+          class="markdown-body  article-content"
+          v-html="article.content"
+        ></div>
         <van-divider>正文结束</van-divider>
       </div>
       <!-- /加载完成-文章详情 -->
@@ -92,6 +96,9 @@
 
 <script>
 import { getArticleById } from '@/api/article.js'
+import './github-markdown.css'
+import { ImagePreview } from 'vant'
+
 export default {
   name: 'ArticleIndex',
   components: {},
@@ -120,6 +127,10 @@ export default {
       try {
         const { data } = await getArticleById(this.articleId)
         this.article = data.data
+        // 数据加载完成
+        setTimeout(() => {
+          this.previewImage()
+        }, 10)
       } catch (err) {
         if (err.response && err.response.status === 404) {
           this.errStatus = 404
@@ -131,6 +142,26 @@ export default {
     },
     onClickLeft() {
       this.$router.push('/')
+    },
+
+    // 点击图片预览
+    previewImage() {
+      //  得到所有的图片节点
+      const articleContent = this.$refs['article-content']
+      const allImg = articleContent.querySelectorAll('img')
+      const images = []
+      allImg.forEach((img, index) => {
+        images.push(img.src)
+        // 给每个图片添加点击事件
+        img.onclick = () => {
+          ImagePreview({
+            // 预览的图片地址数组
+            images,
+            // 设置初始页,点击谁就从谁开始
+            startPosition: index
+          })
+        }
+      })
     }
   }
 }
