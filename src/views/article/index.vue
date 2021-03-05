@@ -36,6 +36,16 @@
             {{ article.pubdate | relativeTime }}
           </div>
           <van-button
+            v-if="article.is_followed"
+            @click="onFollow"
+            class="follow-btn"
+            round
+            size="small"
+            >已关注</van-button
+          >
+          <van-button
+            @click="onFollow"
+            v-else
             class="follow-btn"
             type="info"
             color="#3296fa"
@@ -44,11 +54,6 @@
             icon="plus"
             >关注</van-button
           >
-          <!-- <van-button
-            class="follow-btn"
-            round
-            size="small"
-          >已关注</van-button> -->
         </van-cell>
         <!-- /用户信息 -->
 
@@ -98,7 +103,7 @@
 import { getArticleById } from '@/api/article.js'
 import './github-markdown.css'
 import { ImagePreview } from 'vant'
-
+import { addFollow, deleteFollow } from '@/api/user.js'
 export default {
   name: 'ArticleIndex',
   components: {},
@@ -122,6 +127,7 @@ export default {
   },
   mounted() {},
   methods: {
+    // 获取文章详情
     async loadArtcileInfo() {
       this.isLoading = true
       try {
@@ -162,6 +168,26 @@ export default {
           })
         }
       })
+    },
+    // 关注于取消关注
+    async onFollow() {
+      try {
+        if (this.article.is_followed) {
+          // 已关注： 取消关注
+          await deleteFollow(this.article.aut_id)
+        } else {
+          // 未关注 ： 关注用户
+          await addFollow(this.article.aut_id)
+        }
+      } catch (error) {
+        let message = '操作失败,请稍后重试！'
+        if (error.response && error.response.status === 400) {
+          message = '用户不能关注自己！'
+        }
+        this.$toast.fail(message)
+      }
+      // 更新视图
+      this.article.is_followed = !this.article.is_followed
     }
   }
 }
