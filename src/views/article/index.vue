@@ -124,9 +124,8 @@
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
     <!-- 回复评论 弹出层-->
-    <van-popup v-model="isReplyShow" position="bottom" style="height:100%;">
-      <!-- <comment-post :target="article.art_id" @post-success="onPostSuccess" /> -->
-      1111
+    <van-popup v-model="isReplyShow" position="bottom" style="height:90%;">
+      <comment-reply :comment="currentComment" @close="isReplyShow = false" />
     </van-popup>
     <!-- / 回复评论 弹出层-->
   </div>
@@ -141,6 +140,7 @@ import CollectArticle from '@/components/collect-article'
 import LikeArticle from '@/components/like-article'
 import CommentList from './components/comment-list'
 import CommentPost from './components/comment-post'
+import CommentReply from './components/comment-reply.vue'
 export default {
   name: 'ArticleIndex',
   components: {
@@ -148,7 +148,8 @@ export default {
     CollectArticle,
     LikeArticle,
     CommentList,
-    CommentPost
+    CommentPost,
+    CommentReply
   },
   props: {
     articleId: {
@@ -165,7 +166,8 @@ export default {
       totalCount: 0, // 评论总条数
       isPostShow: false, // 评论弹出层，
       commentList: [], // 评论列表
-      isReplyShow: false // 回复评论弹出层，
+      isReplyShow: false, // 回复评论弹出层，
+      currentComment: {} // 当前点击回复的评论项
     }
   },
   computed: {},
@@ -227,6 +229,7 @@ export default {
     },
     // 点击回复按钮后的事件
     onReplyClick(comment) {
+      this.currentComment = comment
       this.isReplyShow = true
     }
   }
