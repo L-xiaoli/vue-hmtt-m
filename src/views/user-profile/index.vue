@@ -34,6 +34,7 @@
         v-if="isUpdateNameShow"
         v-model="user.name"
         @close="isUpdateNameShow = false"
+        @update-name="user.name = $event"
       />
     </van-popup>
     <!-- / 昵称弹出层 -->
@@ -62,7 +63,7 @@ export default {
     async loadUserProfile() {
       try {
         const { data } = await getUserProfile()
-        console.log(data)
+        // console.log(data)
         this.user = data.data
       } catch (error) {
         this.$toast.fail('获取个人信息失败！')
