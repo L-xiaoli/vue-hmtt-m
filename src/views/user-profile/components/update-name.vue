@@ -55,10 +55,9 @@ export default {
           this.$toast('昵称不能为空！')
           return
         }
-        const { data } = await updateUserProfile({
+        await updateUserProfile({
           name: localName // 输入的昵称
         })
-        console.log(data)
         // 更新视图
         this.$emit('update-name', localName)
         //  关闭弹层
