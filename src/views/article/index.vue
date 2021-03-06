@@ -64,6 +64,7 @@
           :source="article.art_id"
           :list="commentList"
           @onload-success="totalCount = $event.total_count"
+          @reply-click="onReplyClick"
         />
         <!-- /  文章评论 -->
         <!-- 底部区域 -->
@@ -95,8 +96,6 @@
         </div>
         <!-- /底部区域 -->
         <!-- 发布评论弹出层-->
-        <!-- <van-cell is-link @click="isPostShow = true">展示弹出层</van-cell> -->
-        <!-- <comment-post :isPostShow="isPostShow"/> -->
         <van-popup v-model="isPostShow" position="bottom">
           <comment-post
             :target="article.art_id"
@@ -124,6 +123,12 @@
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
+    <!-- 回复评论 弹出层-->
+    <van-popup v-model="isReplyShow" position="bottom" style="height:100%;">
+      <!-- <comment-post :target="article.art_id" @post-success="onPostSuccess" /> -->
+      1111
+    </van-popup>
+    <!-- / 回复评论 弹出层-->
   </div>
 </template>
 
@@ -159,7 +164,8 @@ export default {
       followLoading: false, // 关注加载状态
       totalCount: 0, // 评论总条数
       isPostShow: false, // 评论弹出层，
-      commentList: [] // 评论列表
+      commentList: [], // 评论列表
+      isReplyShow: false // 回复评论弹出层，
     }
   },
   computed: {},
@@ -218,6 +224,10 @@ export default {
       this.isPostShow = false
       // 展示数据到顶部
       this.commentList.unshift(data.new_obj)
+    },
+    // 点击回复按钮后的事件
+    onReplyClick(comment) {
+      this.isReplyShow = true
     }
   }
 }
