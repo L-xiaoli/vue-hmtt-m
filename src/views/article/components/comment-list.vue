@@ -1,6 +1,7 @@
 <template>
   <div>
     <van-list
+      :immediate-check="false"
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
