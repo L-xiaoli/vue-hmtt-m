@@ -19,7 +19,7 @@
 
 <script>
 import { getComment } from '@/api/comment.js'
-import CommentItem from './commit-item'
+import CommentItem from './comment-item'
 export default {
   name: 'CommentList',
   props: {

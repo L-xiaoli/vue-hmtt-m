@@ -67,7 +67,12 @@
         <!-- /  文章评论 -->
         <!-- 底部区域 -->
         <div class="article-bottom">
-          <van-button class="comment-btn" type="default" round size="small"
+          <van-button
+            class="comment-btn"
+            type="default"
+            round
+            size="small"
+            @click="isPostShow = true"
             >写评论</van-button
           >
           <van-icon name="comment-o" :info="totalCount" color="#777" />
@@ -88,6 +93,13 @@
           <van-icon name="share" color="#777777"></van-icon>
         </div>
         <!-- /底部区域 -->
+        <!-- 发布评论弹出层-->
+        <!-- <van-cell is-link @click="isPostShow = true">展示弹出层</van-cell> -->
+        <!-- <comment-post :isPostShow="isPostShow"/> -->
+        <van-popup v-model="isPostShow" position="bottom">
+          <comment-post />
+        </van-popup>
+        <!-- / 发布评论弹出层 -->
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -118,14 +130,16 @@ import { ImagePreview } from 'vant'
 import UserFollow from '@/components/user-follow'
 import CollectArticle from '@/components/collect-article'
 import LikeArticle from '@/components/like-article'
-import CommentList from './components/commit-list'
+import CommentList from './components/comment-list'
+import CommentPost from './components/comment-post'
 export default {
   name: 'ArticleIndex',
   components: {
     UserFollow,
     CollectArticle,
     LikeArticle,
-    CommentList
+    CommentList,
+    CommentPost
   },
   props: {
     articleId: {
@@ -139,7 +153,8 @@ export default {
       isLoading: true, // 文章加载状态
       errStatus: 0, // 失败状态码
       followLoading: false, // 关注加载状态
-      totalCount: 0 // 评论总条数
+      totalCount: 0, // 评论总条数
+      isPostShow: false // 评论弹出层，
     }
   },
   computed: {},

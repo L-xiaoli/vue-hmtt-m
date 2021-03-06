@@ -59,11 +59,11 @@ export default {
       try {
         if (this.comment.is_liking) {
           // 已点赞： 取消点赞
-          const { data } = await deleteCommentLike(this.comment.com_id)
+          await deleteCommentLike(this.comment.com_id)
           this.comment.like_count--
         } else {
           // 未点赞： 点赞
-          const { data } = await addCommentLike(this.comment.com_id)
+          await addCommentLike(this.comment.com_id)
           this.comment.like_count++
         }
         this.comment.is_liking = !this.comment.is_liking
