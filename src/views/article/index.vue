@@ -124,8 +124,16 @@
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
     <!-- 回复评论 弹出层-->
+    <!-- // ! 解决内容不重新获取问题
+        原因：弹出层是懒渲染的：只有在第一次展示的时候才会渲染里面的内容，之后它的关闭与显示都只是通过 CSS 控制隐藏和显示
+        解决：利用v-if（条件渲染）控制组件的创建和销毁
+     -->
     <van-popup v-model="isReplyShow" position="bottom" style="height:90%;">
-      <comment-reply :comment="currentComment" @close="isReplyShow = false" />
+      <comment-reply
+        v-if="isReplyShow"
+        :comment="currentComment"
+        @close="isReplyShow = false"
+      />
     </van-popup>
     <!-- / 回复评论 弹出层-->
   </div>
