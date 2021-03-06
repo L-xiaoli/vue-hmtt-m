@@ -9,7 +9,7 @@
     />
     <div class="field-wrap">
       <van-field
-        v-model="name"
+        v-model="message"
         rows="1"
         autosize
         type="textarea"
@@ -25,10 +25,18 @@
 <script>
 export default {
   name: 'UpdateName',
-
+  model: {
+    prop: 'name' // 默认是value
+  },
+  props: {
+    name: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
-      name: ''
+      message: this.name // 输入的内容
     }
   },
 

@@ -30,7 +30,11 @@
       position="bottom"
       :style="{ height: '100%' }"
     >
-      <update-name @close="isUpdateNameShow = false" />
+      <update-name
+        v-if="isUpdateNameShow"
+        v-model="user.name"
+        @close="isUpdateNameShow = false"
+      />
     </van-popup>
     <!-- / 昵称弹出层 -->
   </div>
