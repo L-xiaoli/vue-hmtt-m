@@ -62,6 +62,7 @@
         <!-- 文章评论 -->
         <comment-list
           :source="article.art_id"
+          :list="commentList"
           @onload-success="totalCount = $event.total_count"
         />
         <!-- /  文章评论 -->
@@ -97,7 +98,10 @@
         <!-- <van-cell is-link @click="isPostShow = true">展示弹出层</van-cell> -->
         <!-- <comment-post :isPostShow="isPostShow"/> -->
         <van-popup v-model="isPostShow" position="bottom">
-          <comment-post :target="article.art_id" />
+          <comment-post
+            :target="article.art_id"
+            @post-success="onPostSuccess"
+          />
         </van-popup>
         <!-- / 发布评论弹出层 -->
       </div>
@@ -154,7 +158,8 @@ export default {
       errStatus: 0, // 失败状态码
       followLoading: false, // 关注加载状态
       totalCount: 0, // 评论总条数
-      isPostShow: false // 评论弹出层，
+      isPostShow: false, // 评论弹出层，
+      commentList: [] // 评论列表
     }
   },
   computed: {},
@@ -206,6 +211,13 @@ export default {
           })
         }
       })
+    },
+    // 发布评论成功的事件
+    onPostSuccess(data) {
+      // 关闭弹出层
+      this.isPostShow = false
+      // 展示数据到顶部
+      this.commentList.unshift(data.new_obj)
     }
   }
 }

@@ -26,6 +26,10 @@ export default {
     source: {
       type: [String, Number, Object],
       required: true
+    },
+    list: {
+      type: Array,
+      default: () => [] // props的数组和对象的默认值必须用函数表示
     }
   },
   components: {
@@ -33,7 +37,7 @@ export default {
   },
   data() {
     return {
-      list: [],
+      // list: [],
       loading: false,
       finished: false,
       error: false,
