@@ -2,7 +2,7 @@
   <div class="comment-post">
     <van-field
       class="post-field"
-      v-model="message"
+      v-model="content"
       rows="2"
       autosize
       type="textarea"
@@ -10,25 +10,44 @@
       placeholder="请输入留言"
       show-word-limit
     />
-    <van-button class="post-btn">发布</van-button>
+    <van-button class="post-btn" @click="PostComment">发布</van-button>
   </div>
 </template>
 
 <script>
+import { postComment } from '@/api/comment'
 export default {
   name: 'CommentPost',
+  props: {
+    target: {
+      type: [String, Number, Object],
+      required: true
+    }
+  },
   components: {},
-  props: {},
   data() {
     return {
-      message: ''
+      content: '' // 评论内容
     }
   },
   computed: {},
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  methods: {
+    async PostComment() {
+      try {
+        const { data } = await postComment({
+          target: this.target, // 评论的文章id（
+          content: this.content.toString(), // 评论内容
+          art_id: null // 文章id，对评论内容发表回复时，需要传递此参数，表明所属文章id。对文章进行评论，不要传此参数。
+        })
+        console.log(data)
+      } catch (error) {
+        this.$toast.fail('发表评论失败！')
+      }
+    }
+  }
 }
 </script>
 
