@@ -26,7 +26,12 @@
       :value="user.gender === 0 ? '男' : '女'"
       @click="isUpdateGenderShow = true"
     />
-    <van-cell title="生日" is-link :value="user.birthday" />
+    <van-cell
+      title="生日"
+      is-link
+      :value="user.birthday"
+      @click="isUpdateBirthdayShow = true"
+    />
     <!-- /个人信息 -->
 
     <!-- 昵称弹出层 -->
@@ -53,6 +58,16 @@
       />
     </van-popup>
     <!-- / 性别弹出层 -->
+    <!-- 生日弹出层 -->
+    <van-popup v-model="isUpdateBirthdayShow" position="bottom">
+      <update-birthday
+        v-if="isUpdateBirthdayShow"
+        v-model="user.birthday"
+        @close="isUpdateBirthdayShow = false"
+        @update-gender="user.birthday = $event"
+      />
+    </van-popup>
+    <!-- / 生日弹出层 -->
   </div>
 </template>
 
@@ -60,17 +75,20 @@
 import { getUserProfile } from '@/api/user'
 import UpdateName from './components/update-name'
 import UpdateGender from './components/update-gender'
+import UpdateBirthday from './components/update-birthday'
 export default {
   name: 'UserProfile',
   components: {
     UpdateName,
-    UpdateGender
+    UpdateGender,
+    UpdateBirthday
   },
   data() {
     return {
       user: {}, // 用户个人信息
       isUpdateNameShow: false, // 修改昵称弹出层
-      isUpdateGenderShow: false // 修改性别弹出层
+      isUpdateGenderShow: false, // 修改性别弹出层
+      isUpdateBirthdayShow: false // 修改生日弹出层
     }
   },
   created() {
