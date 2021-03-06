@@ -30,7 +30,7 @@
       position="bottom"
       :style="{ height: '100%' }"
     >
-      <update-name />
+      <update-name @close="isUpdateNameShow = false" />
     </van-popup>
     <!-- / 昵称弹出层 -->
   </div>
@@ -73,6 +73,9 @@ export default {
   .avator {
     height: 60px;
     width: 60px;
+  }
+  .van-popup {
+    background-color: #f5f7f9;
   }
 }
 </style>
