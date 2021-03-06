@@ -159,10 +159,17 @@ export default {
     CommentPost,
     CommentReply
   },
+
   props: {
     articleId: {
       type: [Number, String, Object],
       required: true
+    }
+  },
+  // provide 给所有的后代组件提供数据
+  provide: function() {
+    return {
+      articleId: this.articleId
     }
   },
   data() {

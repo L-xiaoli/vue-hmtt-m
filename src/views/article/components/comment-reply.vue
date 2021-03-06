@@ -16,27 +16,37 @@
 
       <!-- 评论的回复列表 -->
       <van-cell title="全部回复" />
-      <comment-list :source="comment.com_id" type="c" />
+      <comment-list :source="comment.com_id" type="c" :list="commentList" />
       <!-- /评论的回复列表 -->
     </div>
 
     <!-- 底部 -->
     <div class="post-wrap">
-      <van-button class="post-btn" size="small" round>写评论</van-button>
+      <van-button @click="isPostShow = true" class="post-btn" size="small" round
+        >写评论</van-button
+      >
     </div>
     <!-- /底部 -->
+    <!-- 发表评论 -->
+    <van-popup v-model="isPostShow" position="bottom">
+      <comment-post :target="comment.com_id" @post-success="onReplySuccess" />
+    </van-popup>
+    <!-- / 发表评论 -->
   </div>
 </template>
 
 <script>
 import CommentItem from './comment-item'
 import CommentList from './comment-list'
+import CommentPost from './comment-post'
 export default {
   name: 'CommentReply',
   components: {
     CommentItem,
-    CommentList
+    CommentList,
+    CommentPost
   },
+
   props: {
     comment: {
       type: Object,
@@ -44,10 +54,22 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      isPostShow: false, // 弹出层
+      commentList: [] // 评论回复列表
+    }
   },
 
-  methods: {}
+  methods: {
+    onReplySuccess(data) {
+      // 更新回复数量
+      this.comment.reply_count++
+      //  关闭弹出层
+      this.isPostShow = false
+      // 将最新的内容展示到列表顶部
+      this.commentList.unshift(data.new_obj)
+    }
+  }
 }
 </script>
 
