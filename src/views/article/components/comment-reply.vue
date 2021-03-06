@@ -15,6 +15,8 @@
     <!-- /当前评论项 -->
 
     <!-- 评论的回复列表 -->
+    <van-cell title="全部回复" />
+    <comment-list :source="comment.com_id" type="c" />
     <!-- /评论的回复列表 -->
 
     <!-- 底部 -->
@@ -24,10 +26,12 @@
 
 <script>
 import CommentItem from './comment-item'
+import CommentList from './comment-list'
 export default {
   name: 'CommentReply',
   components: {
-    CommentItem
+    CommentItem,
+    CommentList
   },
   props: {
     comment: {

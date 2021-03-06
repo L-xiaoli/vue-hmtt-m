@@ -31,6 +31,14 @@ export default {
     list: {
       type: Array,
       default: () => [] // props的数组和对象的默认值必须用函数表示
+    },
+    type: {
+      type: String,
+      // 自定义Prop数据验证
+      validator(value) {
+        return ['a', 'c'].includes(value)
+      },
+      default: 'a'
     }
   },
   components: {
@@ -54,7 +62,7 @@ export default {
       try {
         // 1. 请求数据
         const { data } = await getComment({
-          type: 'a', // 评论类型，a-对文章(article)的评论，c-对评论(comment)的回复
+          type: this.type, // 评论类型，a-对文章(article)的评论，c-对评论(comment)的回复
           source: this.source.toString(), // 源id，文章id或评论id
           offset: this.offset, // 获取评论数据的偏移量，值为评论id，表示从此id的数据向后取，不传表示从第一页开始读取数据
           limit: this.limit // 获取的评论数据个数
