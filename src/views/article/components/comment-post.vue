@@ -2,7 +2,7 @@
   <div class="comment-post">
     <van-field
       class="post-field"
-      v-model="content"
+      v-model.trim="content"
       rows="2"
       autosize
       type="textarea"
@@ -10,7 +10,13 @@
       placeholder="请输入留言"
       show-word-limit
     />
-    <van-button class="post-btn" @click="PostComment">发布</van-button>
+    <van-button
+      class="post-btn"
+      @click="PostComment"
+      :disabled="!content.length"
+    >
+      发布
+    </van-button>
   </div>
 </template>
 
