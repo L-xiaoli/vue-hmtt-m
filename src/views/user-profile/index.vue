@@ -14,21 +14,41 @@
         src="https://img01.yzcdn.cn/vant/cat.jpeg"
       />
     </van-cell>
-    <van-cell title="昵称" is-link :value="user.name" />
+    <van-cell
+      title="昵称"
+      is-link
+      :value="user.name"
+      @click="isUpdateNameShow = true"
+    />
     <van-cell title="性别" is-link :value="user.gender === 0 ? '男' : '女'" />
     <van-cell title="生日" is-link :value="user.birthday" />
     <!-- /个人信息 -->
+
+    <!-- 昵称弹出层 -->
+    <van-popup
+      v-model="isUpdateNameShow"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <update-name />
+    </van-popup>
+    <!-- / 昵称弹出层 -->
   </div>
 </template>
 
 <script>
 import { getUserProfile } from '@/api/user'
+import UpdateName from './components/update-name'
+
 export default {
   name: 'UserProfile',
-
+  components: {
+    UpdateName
+  },
   data() {
     return {
-      user: {} // 用户个人信息
+      user: {}, // 用户个人信息
+      isUpdateNameShow: false // 修改昵称弹出层
     }
   },
   created() {
