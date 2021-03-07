@@ -5,11 +5,12 @@
       <van-icon slot="left" name="cross" @click="$router.push('/my')" />
     </van-nav-bar>
     <!-- /导航栏 -->
-
     <!-- 个人信息 -->
-    <van-cell title="头像" is-link @click="isUpdateAvatorShow = true">
-      <van-image class="avator" round :src="user.photo" />
+    <input type="file" hidden ref="inputFile" @change="inputChange" />
+    <van-cell title="头像" is-link @click="$refs.inputFile.click()">
+      <van-image class="avatar" fit="cover" round :src="user.photo" />
     </van-cell>
+
     <van-cell
       title="昵称"
       is-link
@@ -64,15 +65,20 @@
       />
     </van-popup>
     <!-- / 生日弹出层 -->
-    <!-- 生日弹出层 -->
-    <van-popup v-model="isUpdateAvatorShow" position="bottom">
-      <update-avator
-        v-if="isUpdateAvatorShow"
+    <!-- 头像弹出层 -->
+    <van-popup
+      class="avatar-popup"
+      v-model="isUpdateAvatarShow"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <update-avatar
+        v-if="isUpdateAvatarShow"
         v-model="user.photo"
-        @close="isUpdateAvatorShow = false"
+        @close="isUpdateAvatarShow = false"
       />
     </van-popup>
-    <!-- / 生日弹出层 -->
+    <!-- / 头像弹出层 -->
   </div>
 </template>
 
@@ -81,14 +87,14 @@ import { getUserProfile } from '@/api/user'
 import UpdateName from './components/update-name'
 import UpdateGender from './components/update-gender'
 import UpdateBirthday from './components/update-birthday'
-import UpdateAvator from './components/update-avator'
+import UpdateAvatar from './components/update-avatar'
 export default {
   name: 'UserProfile',
   components: {
     UpdateName,
     UpdateGender,
     UpdateBirthday,
-    UpdateAvator
+    UpdateAvatar
   },
   data() {
     return {
@@ -96,7 +102,7 @@ export default {
       isUpdateNameShow: false, // 修改昵称弹出层
       isUpdateGenderShow: false, // 修改性别弹出层
       isUpdateBirthdayShow: false, // 修改生日弹出层
-      isUpdateAvatorShow: false // 修改头像弹出层
+      isUpdateAvatarShow: false // 修改头像弹出层
     }
   },
   created() {
@@ -111,6 +117,17 @@ export default {
       } catch (error) {
         this.$toast.fail('获取个人信息失败！')
       }
+    },
+    // 上传图片事件
+    inputChange() {
+      console.log(1)
+      // 获取文件对象
+      const file = this.$refs.inputFile.files[0]
+      // 获取blob数据
+      const imgUrl = window.URL.createObjectURL(file)
+      console.log(imgUrl)
+      // 打开弹出层
+      this.isUpdateAvatarShow = true
     }
   }
 }
@@ -118,12 +135,19 @@ export default {
 
 <style lang="less" scoped>
 .user-profile {
-  .avator {
+  .avatar {
     height: 60px;
     width: 60px;
   }
   .van-popup {
     background-color: #f5f7f9;
+  }
+  /deep/.van-uploader,
+  /deep/.van-uploader__input-wrapper {
+    width: 100%;
+  }
+  .avatar-popup {
+    background: #000;
   }
 }
 </style>
