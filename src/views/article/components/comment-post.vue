@@ -59,8 +59,9 @@ export default {
       this.postLoading = true
       try {
         const { data } = await postComment({
-          target: this.target, // 评论的文章id/ 评论id
-          content: this.content.toString(), // 评论内容
+          target: this.target.toString(), // 评论的文章id/ 评论id
+          content: this.content, // 评论内容
+          // art_id: this.articleId.toString() === this.target.toString() ? null : this.articleId.toString()
           art_id: this.articleId ? this.articleId.toString() : null // 文章id，对评论内容发表回复时，需要传递此参数，表明所属文章id。对文章进行评论，不要传此参数。
         })
         console.log(data)

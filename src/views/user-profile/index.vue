@@ -7,12 +7,8 @@
     <!-- /导航栏 -->
 
     <!-- 个人信息 -->
-    <van-cell title="头像" is-link>
-      <van-image
-        class="avator"
-        round
-        src="https://img01.yzcdn.cn/vant/cat.jpeg"
-      />
+    <van-cell title="头像" is-link @click="isUpdateAvatorShow = true">
+      <van-image class="avator" round :src="user.photo" />
     </van-cell>
     <van-cell
       title="昵称"
@@ -68,6 +64,15 @@
       />
     </van-popup>
     <!-- / 生日弹出层 -->
+    <!-- 生日弹出层 -->
+    <van-popup v-model="isUpdateAvatorShow" position="bottom">
+      <update-avator
+        v-if="isUpdateAvatorShow"
+        v-model="user.photo"
+        @close="isUpdateAvatorShow = false"
+      />
+    </van-popup>
+    <!-- / 生日弹出层 -->
   </div>
 </template>
 
@@ -76,19 +81,22 @@ import { getUserProfile } from '@/api/user'
 import UpdateName from './components/update-name'
 import UpdateGender from './components/update-gender'
 import UpdateBirthday from './components/update-birthday'
+import UpdateAvator from './components/update-avator'
 export default {
   name: 'UserProfile',
   components: {
     UpdateName,
     UpdateGender,
-    UpdateBirthday
+    UpdateBirthday,
+    UpdateAvator
   },
   data() {
     return {
       user: {}, // 用户个人信息
       isUpdateNameShow: false, // 修改昵称弹出层
       isUpdateGenderShow: false, // 修改性别弹出层
-      isUpdateBirthdayShow: false // 修改生日弹出层
+      isUpdateBirthdayShow: false, // 修改生日弹出层
+      isUpdateAvatorShow: false // 修改头像弹出层
     }
   },
   created() {
