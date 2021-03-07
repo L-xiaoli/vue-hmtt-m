@@ -122,7 +122,6 @@ export default {
     },
     // 上传图片事件
     inputChange() {
-      console.log(1)
       // 获取文件对象
       const file = this.$refs.inputFile.files[0]
       // 获取blob数据

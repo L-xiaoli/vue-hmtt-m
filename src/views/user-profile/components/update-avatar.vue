@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     confirm() {
-      console.log(1)
       // 基于服务端的裁切：getData方法 获取裁切参数
       // console.log(this.cropper.getData())
       // 基于纯客户端的裁切：getCroppedCanvas方法 获取裁切文件对象
@@ -57,7 +56,6 @@ export default {
         const formData = new FormData()
         formData.append('photo', blob)
         const { data } = await updateUserAvatar(formData)
-        console.log(data)
         this.$emit('update-avatar', data.data.photo)
         //  关闭弹层
         this.$emit('close')
@@ -66,7 +64,6 @@ export default {
         //  提示成功
         this.$toast.success('头像修改成功！')
       } catch (error) {
-        console.log(error)
         this.$toast.fail('头像修改失败！')
       }
     }

@@ -43,10 +43,9 @@ export default {
       })
       try {
         const currentDate = dayJs(this.currentDate).format('YYYY-MM-DD')
-        const { data } = await updateUserProfile({
+        await updateUserProfile({
           birthday: currentDate // 输入的昵称
         })
-        console.log(data)
         // 更新视图
         this.$emit('update-birthday', currentDate)
         //  关闭弹层
@@ -54,7 +53,6 @@ export default {
         //  提示成功
         this.$toast.success('生日修改成功！')
       } catch (error) {
-        console.log(error)
         this.$toast.fail('生日修改失败！')
       }
     }

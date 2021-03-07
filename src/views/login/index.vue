@@ -138,15 +138,14 @@ export default {
       try {
         await this.$refs.loginForm.validate('mobile')
       } catch (error) {
-        return console.log('验证失败', error)
+        this.$toast.fail('验证失败')
       }
       // 2. 验证通过，显示倒计时
       this.isCountDownShow = true
       // 3. 请求发送验证码
       try {
-        const res = await sendSmsCode(this.user.mobile)
+        await sendSmsCode(this.user.mobile)
         this.$toast('发送成功')
-        console.log(res)
       } catch (err) {
         // 接口访问次数受限:每手机号每分钟1次
         if (err.response.status === 429) {

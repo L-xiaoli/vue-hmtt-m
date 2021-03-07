@@ -54,7 +54,6 @@ export default {
         //  提示成功
         this.$toast.success('性别修改成功！')
       } catch (error) {
-        console.log(error)
         this.$toast.fail('性别修改失败！')
       }
     }

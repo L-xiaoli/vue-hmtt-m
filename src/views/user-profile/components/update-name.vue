@@ -65,7 +65,6 @@ export default {
         //  提示成功
         this.$toast.success('昵称修改成功！')
       } catch (error) {
-        console.log(error)
         this.$toast.fail('昵称修改失败！')
       }
     }
