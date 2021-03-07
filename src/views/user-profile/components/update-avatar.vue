@@ -1,6 +1,6 @@
 <template>
   <div class="update-avatar">
-    <img :src="photo" alt="" />
+    <img :src="photo" alt="" ref="img" />
     <div class="toolbar">
       <span @click="$emit('close')">取消</span>
       <span>完成</span>
@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import 'cropperjs/dist/cropper.css'
+import Cropper from 'cropperjs'
 // import { updateUserProfile } from '@/api/user'
 export default {
   name: 'UpdateAvatar',
@@ -22,6 +24,22 @@ export default {
       required: true
     }
   },
+  mounted() {
+    const image = this.$refs.img
+    const cropper = new Cropper(image, {
+      aspectRatio: 16 / 9,
+      crop(event) {
+        console.log(event.detail.x)
+        console.log(event.detail.y)
+        console.log(event.detail.width)
+        console.log(event.detail.height)
+        console.log(event.detail.rotate)
+        console.log(event.detail.scaleX)
+        console.log(event.detail.scaleY)
+      }
+    })
+    console.log(cropper)
+  },
   methods: {}
 }
 </script>
@@ -29,8 +47,8 @@ export default {
 <style lang="less" scoped>
 .update-avatar {
   background: #000;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   .toolbar {
     position: fixed;
     bottom: 10px;

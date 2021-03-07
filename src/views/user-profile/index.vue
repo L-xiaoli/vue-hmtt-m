@@ -67,7 +67,7 @@
     <!-- / 生日弹出层 -->
     <!-- 头像弹出层 -->
     <van-popup
-      class="avatar-popup"
+      class="avatar-avatar"
       v-model="isUpdateAvatarShow"
       position="bottom"
       :style="{ height: '100%' }"
