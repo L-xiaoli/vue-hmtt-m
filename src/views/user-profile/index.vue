@@ -74,8 +74,9 @@
     >
       <update-avatar
         v-if="isUpdateAvatarShow"
-        v-model="user.photo"
+        v-model="imgUrl"
         @close="isUpdateAvatarShow = false"
+        @update-avatar="user.photo = $event"
       />
     </van-popup>
     <!-- / 头像弹出层 -->
@@ -102,7 +103,8 @@ export default {
       isUpdateNameShow: false, // 修改昵称弹出层
       isUpdateGenderShow: false, // 修改性别弹出层
       isUpdateBirthdayShow: false, // 修改生日弹出层
-      isUpdateAvatarShow: false // 修改头像弹出层
+      isUpdateAvatarShow: false, // 修改头像弹出层
+      imgUrl: ''
     }
   },
   created() {
@@ -124,8 +126,8 @@ export default {
       // 获取文件对象
       const file = this.$refs.inputFile.files[0]
       // 获取blob数据
-      const imgUrl = window.URL.createObjectURL(file)
-      console.log(imgUrl)
+      this.imgUrl = window.URL.createObjectURL(file)
+      // console.log(imgUrl)
       // 打开弹出层
       this.isUpdateAvatarShow = true
     }

@@ -1,9 +1,9 @@
 <template>
   <div class="update-avatar">
-    <img :src="photo" alt="" ref="img" />
+    <img :src="avatar" alt="" ref="img" />
     <div class="toolbar">
       <span @click="$emit('close')">取消</span>
-      <span>完成</span>
+      <span @click="confirm">完成</span>
     </div>
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
-// import { updateUserProfile } from '@/api/user'
+import { updateUserAvatar } from '@/api/user'
 export default {
   name: 'UpdateAvatar',
   model: {
@@ -24,9 +24,15 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      cropper: null,
+      avatar: this.photo
+    }
+  },
   mounted() {
     const image = this.$refs.img
-    const cropper = new Cropper(image, {
+    this.cropper = new Cropper(image, {
       viewMode: 1, // 1:只能在裁剪的图片范围内移动,0:可超出图片范围移动（默认）
       dragMode: 'move', // move：画布和图片都可以移动，crop:剪裁区域大小区域可移动（默认）;none:只能拖动截图区域.....
       aspectRatio: 1, // 裁剪区形状（默认16/9）;1(1/1)：正方形
@@ -35,9 +41,36 @@ export default {
       cropBoxResizable: false, // 裁剪区能否缩放:禁止
       background: false // 默认背景：关闭
     })
-    console.log(cropper)
   },
-  methods: {}
+  methods: {
+    confirm() {
+      console.log(1)
+      // 基于服务端的裁切：getData方法 获取裁切参数
+      // console.log(this.cropper.getData())
+      // 基于纯客户端的裁切：getCroppedCanvas方法 获取裁切文件对象
+      this.cropper.getCroppedCanvas().toBlob(blob => {
+        this.updatePhoto(blob)
+      })
+    },
+    async updatePhoto(blob) {
+      try {
+        const formData = new FormData()
+        formData.append('photo', blob)
+        const { data } = await updateUserAvatar(formData)
+        console.log(data)
+        this.$emit('update-avatar', data.data.photo)
+        //  关闭弹层
+        this.$emit('close')
+        // 视图更新
+        this.$emit('update-avatar', data.data.photo)
+        //  提示成功
+        this.$toast.success('头像修改成功！')
+      } catch (error) {
+        console.log(error)
+        this.$toast.fail('头像修改失败！')
+      }
+    }
+  }
 }
 </script>
 
